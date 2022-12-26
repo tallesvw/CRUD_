@@ -11,30 +11,36 @@ export const UserModel = db.define('user', {
     nome: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+    telefone: {
+        type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-            notEmpty: true
-        },
+            min: 0,
+            max: 11,
+        }
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            isEmail: {
-                msg: "Esse campo precisa ser um e-mail"
-            },
-        }  
     },
-    idade: {
+    cep: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         validate: {
-            len: {
-                args: [1, 3],
-                msg: "Esse campo deve ter entre 1 e 3 "  
-            },
-            isInt: {
-                msg: "esse campo precisa ser passado sua idade",
-            },    
+            len: [0,8],
+            isNumeric: true,
+        }
+    },
+    rua: {
+        type: DataTypes.STRING,
+        validate: {
+            notEmpty: true
+        }
+    },
+    bairro: {
+        type: DataTypes.STRING,
+        validate: {
+            notEmpty: true
         }
     },
 });

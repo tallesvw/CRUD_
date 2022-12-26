@@ -1,5 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, json } from 'express';
 import { UserModel } from '../database/models/UserModel';
+import { Model } from 'sequelize';
+
 
 class UserController {
     async findAll(req: Request, res: Response) {
@@ -17,15 +19,31 @@ class UserController {
         });
         return user ? res.status(200).json(user) 
                     : res.status(204).send();
-    }
+    };
     async create(req: Request, res: Response)  {
-        const { email, nome, idade } = req.body;
+
+        const { nome, telefone, email, cep, rua, bairro  } = req.body;
         const user = await UserModel.create({
-            email,
             nome,
-            idade,
+            telefone,
+            email,
+            cep,
+            rua,
+            bairro
         });
-        return res.status(201).json(user);
+        
+     const error = []
+
+        if (!req.body.nome || !req.body.telefone  || !req.body.email ){
+            return res.status(200).json({
+                message: "Criado com Sucesso",
+            })
+            //console.log("Criado com Sucesso")
+        } else{
+            return res.status(500).json({
+                message: error,
+            });
+        }
     }
     async update(req: Request, res: Response) {
         const { userId } = req.params;

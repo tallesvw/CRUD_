@@ -8,19 +8,6 @@ const port = 3000
 app.use(json());
 app.use(router);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.listen(port, async () => {
     await db.sync();
     console.log(`App ${process.env.PROJECT_NAME} running at ${port}`)
