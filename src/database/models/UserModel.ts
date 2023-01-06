@@ -16,8 +16,7 @@ export const UserModel = db.define('user', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            min: 0,
-            max: 11,
+            len: [0,12]
         }
     },
     email: {

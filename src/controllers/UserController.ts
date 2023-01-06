@@ -23,6 +23,13 @@ class UserController {
     async create(req: Request, res: Response)  {
 
         const { nome, telefone, email, cep, rua, bairro  } = req.body;
+
+        if (!req.body.nome || !req.body.telefone || !req.body.email) {
+
+            return res.status(500).json({
+                message: "Os campos Nome, Telefone e Email precisam estar preenchidos.",
+            });
+        } 
         const user = await UserModel.create({
             nome,
             telefone,
@@ -31,31 +38,31 @@ class UserController {
             rua,
             bairro
         });
-        
-     const error = []
 
-        if (!req.body.nome || !req.body.telefone  || !req.body.email ){
             return res.status(200).json({
-                message: "Criado com Sucesso",
-            })
-            //console.log("Criado com Sucesso")
-        } else{
-            return res.status(500).json({
-                message: error,
-            });
-        }
+                
+                message: "Usuário Criado com Sucesso.",
+            });          
     }
     async update(req: Request, res: Response) {
         const { userId } = req.params;
         await UserModel.update(req.body, { where: { id: userId } });
-        return res.status(204).send();
+        return res.status(204).json({
+            message: "Usuário Editado com Sucesso.",
+        });
     }
     async destroy(req: Request, res: Response) {
         const { userId } = req.params;
         await UserModel.destroy({ where: { id: userId } });
-        return res.status(204).send();
+        return res.json({
+            message: "Usuário Deletado Com Sucesso."
+        });
     }
 }
 
 
 export default new UserController();
+
+function then(arg0: (user: any) => Response<any, Record<string, any>>) {
+    throw new Error('Function not implemented.');
+}
