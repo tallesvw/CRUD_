@@ -26,7 +26,7 @@ class UserController {
 
         if (!req.body.nome || !req.body.telefone || !req.body.email) {
 
-            return res.status(500).json({
+                res.status(500).json({
                 message: "Os campos Nome, Telefone e Email precisam estar preenchidos.",
             });
         } 
@@ -39,7 +39,7 @@ class UserController {
             bairro
         });
 
-            return res.status(200).json({
+            res.status(200).json({
                 
                 message: "Usuário Criado com Sucesso.",
             });          
@@ -66,3 +66,13 @@ export default new UserController();
 function then(arg0: (user: any) => Response<any, Record<string, any>>) {
     throw new Error('Function not implemented.');
 }
+
+
+export { UserController };
+
+
+
+
+const telefone = document.querySelector('telefone')
+const email = document.querySelector('email')
+const cep = document.querySelector('cep')
