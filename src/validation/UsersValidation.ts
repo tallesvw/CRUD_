@@ -1,8 +1,8 @@
 import { UserController } from '../controllers/UserController'
 
 
-class UserValidation {
 
+class UserValidation {
 
 function validateEmail(email) {
 
@@ -37,4 +37,4 @@ function validateEmail(email) {
     console.log(validatePhone("12-34567-8910")); 
 }
 
-export { UserValidation };
+export default { UserValidation };

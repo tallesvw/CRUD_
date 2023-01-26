@@ -73,6 +73,3 @@ export { UserController };
 
 
 
-const telefone = document.querySelector('telefone')
-const email = document.querySelector('email')
-const cep = document.querySelector('cep')
