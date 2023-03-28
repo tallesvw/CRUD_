@@ -11,3 +11,4 @@ export const db = new Sequelize(
         port: +process.env.DATABASE_PORT
     }
 );
+

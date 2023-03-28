@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import { db } from "../db";
+import { AdressModel } from "./AdressModel";
 
 export const UserModel = db.define('user', {
     id: {
@@ -22,24 +23,11 @@ export const UserModel = db.define('user', {
     email: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    cep: {
-        type: DataTypes.INTEGER,
-        validate: {
-            len: [0,8],
-            isNumeric: true,
-        }
-    },
-    rua: {
-        type: DataTypes.STRING,
-        validate: {
-            notEmpty: true
-        }
-    },
-    bairro: {
-        type: DataTypes.STRING,
-        validate: {
-            notEmpty: true
-        }
-    },
+    },    
 });
+
+UserModel.hasMany(AdressModel, { as: "address"})
+AdressModel.belongsTo(UserModel, {
+    foreignKey: 'userId',
+    as: "user"
+})
