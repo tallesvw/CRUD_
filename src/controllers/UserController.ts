@@ -2,6 +2,7 @@ import { Request, Response, json } from 'express';
 import { UserModel } from '../database/models/UserModel';
 import { Model } from 'sequelize';
 import { AdressModel } from '../database/models/AdressModel';
+import { promises } from 'dns';
 
 
 class UserController {
@@ -87,10 +88,10 @@ class UserController {
         };
        
   
-    async destroy(req: Request, res: Response) {
-            const { userId } = req.params;
+    async destroy (req: Request, res: Response) {
             const { AdressModel } = req.body;
-            await UserModel.destroy({ where: { id: userId, AdressModel  } });
+            const { adress } = req.params;
+            await UserModel.destroy({ where: { id: AdressModel, adress  } });
             return res.json({
                 message: "Usuário Deletado Com Sucesso."
             });
