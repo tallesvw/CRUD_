@@ -61,12 +61,6 @@ class UserController {
         await UserModel.update(req.body, {
             where: { id: userId }
         })
-
-        return res.status(204).json({ message: "Usuário Editado com Sucesso." });
-    };
-
-    async updateUserAddresses = (req: Request, res: Response) => {
-        const { userId } = req.params;
         const { AdressModel } = req.body;
 
         try {
@@ -74,28 +68,33 @@ class UserController {
             if (!user) {
                 return res.status(404).send('Usuário não encontrado');
             }
-            await Promise.all(AdressModel.map(async (AdressModel: any) => {
+            await AdressModel.map(async (AdressModel: any) => {
                 if (AdressModel.id) {
                     await AdressModel.update(AdressModel, {
                         where: { id: AdressModel.id },
                         include: ["adress"]
                     });  
                 }
-            }));
+            });
         } catch (err) {
             console.error(err);
             return res.status(500).send('Endereço não atualizado');
-        };
-       
-  
+        }
+
+        return res.status(204).json({ message: "Usuário Editado com Sucesso." });
+    };
+
     async destroy (req: Request, res: Response) {
-            const { AdressModel } = req.body;
-            const { adress } = req.params;
-            await UserModel.destroy({ where: { id: AdressModel, adress  } });
+            const { id } = req.params;
+            await UserModel.destroy({ where: { id: id } });
+            await AdressModel.destroy({ where: { userId :id }});
+
             return res.json({
                 message: "Usuário Deletado Com Sucesso."
             });
         }
-};
+    }
+
+
 
 export { UserController };
