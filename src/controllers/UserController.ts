@@ -1,30 +1,9 @@
 import { Request, Response, json } from 'express';
 import { UserModel } from '../database/models/UserModel';
-import { Model } from 'sequelize';
 import { AdressModel } from '../database/models/AdressModel';
-import { promises } from 'dns';
 
 
-class UserController {
-    async findAll(req: Request, res: Response) {
-        const users = await UserModel.findAll();
-        return users.length > 0
-            ? res.status(200).json(users)
-            : res.status(204).json();
-    }
-    async findOne(req: Request, res: Response) {
-        const { userId } = req.params;
-        const user = await UserModel.findOne({
-            where: {
-                id: userId
-            },
-            include: [
-                "address"
-            ]
-        });
-        return user ? res.status(200).json(user)
-            : res.status(204).send();
-    };
+export class UserController {
     async create(req: Request, res: Response,) {
 
         const { nome, telefone, email, enderecos } = req.body;
@@ -56,6 +35,27 @@ class UserController {
         });
     }
 
+    async findAll(req: Request, res: Response) {
+        const users = await UserModel.findAll();
+        return users.length > 0
+            ? res.status(200).json(users)
+            : res.status(204).json();
+    }
+    
+    async findOne(req: Request, res: Response) {
+        const { userId } = req.params;
+        const user = await UserModel.findOne({
+            where: {
+                id: userId
+            },
+            include: [
+                "address"
+            ]
+        });
+        return user ? res.status(200).json(user)
+            : res.status(204).send();
+    };
+    
     async update(req: Request, res: Response) {
         const { userId } = req.params;
         await UserModel.update(req.body, {
@@ -86,15 +86,11 @@ class UserController {
 
     async destroy (req: Request, res: Response) {
             const { id } = req.params;
-            await UserModel.destroy({ where: { id: id } });
-            await AdressModel.destroy({ where: { userId :id }});
+          await UserModel.destroy({ where: { id: id } });
+             await AdressModel.destroy({ where: { userId :id }});
 
             return res.json({
                 message: "Usuário Deletado Com Sucesso."
             });
         }
-    }
-
-
-
-export { UserController };
+    };
